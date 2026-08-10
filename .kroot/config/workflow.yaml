@@ -1,0 +1,34 @@
+# Workflow Configuration
+# Execution mode and automation preferences
+# For KRoot-ADK orchestrator system (K.R.O.O.T.)
+
+workflow:
+  # Execution mode selection
+  # Options: auto (intelligent selection), subagent (classic mode)
+  execution_mode: "auto"
+
+  # Auto-clear strategy for context management
+  auto_clear:
+    enabled: true
+    after_plan: true
+    after_run: false
+    token_threshold: 150000
+
+  # Token budget allocations per phase
+  token_budget:
+    plan: 30000
+    run: 180000
+    sync: 40000
+
+  # Completion markers for workflow state detection
+  completion:
+    markers:
+      kroot_done: "<kroot>DONE</kroot>"
+    detect_in_output: true
+
+  # Loop prevention guards
+  loop_prevention:
+    max_iterations: 100
+    max_retries_per_operation: 3
+    failure_pattern_detection: true
+    escalate_after_failures: true
