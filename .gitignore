@@ -10,6 +10,7 @@
 # Build Artifacts & Distribution
 # ===========================================
 build/
+.gradle/
 dist/
 *.egg-info/
 *.egg
@@ -110,7 +111,9 @@ logs/
 # Environment files
 .env
 .env.*
-!.env.example
+!.env.local
+!.env.dev
+!.env.prod
 
 # Certificate files
 *.pem
