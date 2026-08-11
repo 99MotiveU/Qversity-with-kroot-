@@ -56,5 +56,22 @@ tasks.named('bootRun') {
 			.orElse('local')
 			.get()
 	systemProperty 'spring.profiles.active', profile
-	systemProperty 'springdotenv.filename', ".env.${profile}"
+
+	// .env.{profile} → 프로세스 환경변수로 주입 (IDE/dotenv 미동작 대비)
+	def envFile = file(".env.${profile}")
+	if (envFile.exists()) {
+		envFile.eachLine { line ->
+			def trimmed = line.trim()
+			if (!trimmed || trimmed.startsWith('#')) {
+				return
+			}
+			def idx = trimmed.indexOf('=')
+			if (idx <= 0) {
+				return
+			}
+			def key = trimmed.substring(0, idx).trim()
+			def value = trimmed.substring(idx + 1).trim()
+			environment key, value
+		}
+	}
 }

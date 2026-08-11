@@ -8,7 +8,8 @@ import useAuthStore from '../store/authStore';
 export default function MainPage() {
   const navigate = useNavigate();
   const { user, clearUser } = useAuthStore();
-  const { decks, setDecks } = useDeckStore();
+  const { decks: deckList, setDecks } = useDeckStore();
+  const decks = deckList ?? [];
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({ name: '', description: '', isPublic: false });
   const [loading, setLoading] = useState(false);
@@ -21,9 +22,9 @@ export default function MainPage() {
   const loadDecks = async () => {
     try {
       const res = await getDecks();
-      setDecks(res.data.data);
+      setDecks(res.data?.data ?? []);
     } catch {
-      // 덱 목록 로드 실패 — 빈 상태 유지
+      setDecks([]);
     }
   };
 

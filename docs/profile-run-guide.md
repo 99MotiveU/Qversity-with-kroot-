@@ -5,7 +5,7 @@ URL·시크릿은 각 프로젝트의 `.env.{profile}`에 기입합니다.
 
 | 프로필 | 백엔드 env | 프론트 env | 용도 |
 |--------|------------|------------|------|
-| local | `qversity-back/.env.local` | `qversity-front/.env.local` | 로컬 (Podman DB 등) |
+| local | `qversity-back/.env.local` | `qversity-front/.env.development` | 로컬 (Podman DB 등) |
 | dev | `qversity-back/.env.dev` | `qversity-front/.env.dev` | 공유 개발 서버 |
 | prod | `qversity-back/.env.prod` | `qversity-front/.env.prod` | 운영 |
 
@@ -75,10 +75,11 @@ JAR로 실행할 때:
 
 ```bat
 gradlew clean build -x test
-java -Dspring.profiles.active=local -Dspringdotenv.filename=.env.local -jar build\libs\qversity-0.0.1-SNAPSHOT.jar
+java -Dspring.profiles.active=local -jar build\libs\qversity-0.0.1-SNAPSHOT.jar
 ```
 
-(`build/libs` 아래 실제 jar 이름은 빌드 결과에 맞게 확인)
+(`build/libs` 아래 실제 jar 이름은 빌드 결과에 맞게 확인.  
+`application-local.yml`이 워킹 디렉터리의 `.env.local`을 읽으므로 **`qversity-back`에서 실행**하세요.)
 
 ### 주요 env 키 (백엔드)
 
@@ -115,7 +116,7 @@ npm install
 
 | 프로필 | 명령어 | 로드 파일 |
 |--------|--------|-----------|
-| local | `npm run dev` | `.env.local` |
+| local | `npm run dev` | `.env.development` |
 | dev | `npm run dev:dev` | `.env.dev` |
 
 ### 빌드
@@ -163,7 +164,29 @@ npm run dev
 ```
 
 접속: `http://localhost:4000`  
-API: `http://localhost:18080`
+API: `http://localhost:18080` (프론트는 Vite 프록시 사용)
+
+### 모바일 / 다른 기기에서 IP로 접속
+
+1. PC와 모바일을 **같은 Wi-Fi**에 연결
+2. PC IP 확인:
+
+```bat
+ipconfig
+```
+
+`IPv4 주소` 예: `192.168.0.12`
+
+3. 프론트 재시작 후 (`VITE_HOST=true` 적용됨) 모바일 브라우저에서:
+
+```text
+http://192.168.0.12:4000
+```
+
+로컬에서는 API를 동일 출처 프록시로 호출하므로, 모바일이 `localhost` 백엔드를 직접 볼 필요 없습니다.  
+Windows 방화벽이 4000 포트를 막으면 인바운드 허용이 필요합니다.
+
+소셜 로그인(OAuth)까지 모바일에서 쓰려면 `.env.local`의 `APP_FRONTEND_URL` / `APP_BACKEND_URL`도 PC IP로 바꿔야 합니다.
 
 ---
 
