@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../store/authStore';
 import { localLogin, localRegister } from '../api/localAuthApi';
+import { API_BASE_URL } from '../config';
 
 // 탭: 'social' | 'login' | 'register'
 // 소셜 로그인 전환 시 local 관련 state/handler 제거, mode 탭 제거, 소셜 버튼만 남기면 됨
@@ -16,7 +17,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   const handleSocialLogin = (provider) => {
-    window.location.href = `http://localhost:8080/oauth2/authorization/${provider}`;
+    window.location.href = `${API_BASE_URL}/oauth2/authorization/${provider}`;
   };
 
   const handleLocalLogin = async (e) => {

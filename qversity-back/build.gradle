@@ -53,7 +53,7 @@ tasks.named('test') {
 tasks.named('bootRun') {
 	def profile = providers.gradleProperty('profile')
 			.orElse(providers.environmentVariable('SPRING_PROFILES_ACTIVE'))
-			.orElse('dev')
+			.orElse('local')
 			.get()
 	systemProperty 'spring.profiles.active', profile
 	systemProperty 'springdotenv.filename', ".env.${profile}"

@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: API_BASE_URL,
   withCredentials: true,
   headers: { 'Content-Type': 'application/json' },
 });
@@ -15,7 +16,7 @@ api.interceptors.response.use(
       original._retry = true;
       try {
         await axios.post(
-          'http://localhost:8080/api/user/token/refresh',
+          `${API_BASE_URL}/api/user/token/refresh`,
           {},
           { withCredentials: true }
         );
