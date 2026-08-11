@@ -1,0 +1,10 @@
+# User Settings (CLAUDE.md Reference)
+# This file is auto-loaded by CLAUDE.md for personalization
+
+user:
+  name: ""              # User name (set during kroot init)
+  honorific: "님"         # Optional honorific/suffix (e.g., "sir", "님", "さん")
+  tone_preset: friendly       # friendly | professional | casual | mentor
+  orchestrator_style: auto            # auto | kroot
+  # auto: Router determines based on request (default K.R.O.O.T.)
+  # kroot: Always use K.R.O.O.T. identity
